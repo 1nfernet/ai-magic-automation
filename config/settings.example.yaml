@@ -1,0 +1,51 @@
+project:
+  name: ai-magic-automation
+  channel_name: "WonderVexa"
+  output_aspect_ratio: "9:16"
+  output_width: 1080
+  output_height: 1920
+  target_duration_seconds: 10
+  content_type: "original AI magic and educational stories"
+
+generation:
+  provider: "not-configured"
+  free_only: true
+  max_cost_usd: 0
+  require_manual_provider_selection: true
+
+character:
+  description: "A fictional clearly adult woman; define a stable original character bible before generation."
+  reference_image: null
+
+branding:
+  channel_name: "WonderVexa"
+  logo_reference: "user-provided blue magical energy ring logo"
+  watermark:
+    enabled: true
+    text: "WonderVexa"
+    placement: "lower-right-safe-area"
+    style: "subtle"
+    preserve_clean_master: true
+
+publishing:
+  enabled: false
+  timezone: "Asia/Kathmandu"
+  target_reels_per_24_hours: 2
+  schedule:
+    - "morning"
+    - "evening"
+  require_explicit_per_video_approval: true
+  platforms:
+    youtube_shorts:
+      enabled: false
+    facebook_reels:
+      enabled: false
+    tiktok:
+      enabled: false
+    instagram_reels:
+      enabled: false
+
+# Never put API keys, OAuth tokens, passwords, or cookies in this file.
+# Platform connections must use official APIs/OAuth and be enabled only after
+# eligibility, permissions, review requirements, and per-video approval are verified.
+# Schedule is a target only; this example does not activate automatic publishing.

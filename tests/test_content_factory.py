@@ -74,6 +74,12 @@ class ContentFactoryTests(unittest.TestCase):
             finally:
                 factory.IDEAS[:] = original
 
+    def test_idea_catalogue_supports_multiple_weeks_without_duplicates(self):
+        titles = [idea[0] for idea in factory.IDEAS]
+        self.assertGreaterEqual(len(titles), 40)
+        self.assertEqual(len(titles), len(set(titles)))
+        self.assertTrue(all(len(idea) == 4 for idea in factory.IDEAS))
+
     def test_invalid_slot_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError):

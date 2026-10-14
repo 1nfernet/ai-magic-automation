@@ -2,43 +2,41 @@
 
 ## Channel identity
 - Channel name: **WonderVexa**.
-- Logo reference: user-provided blue magical energy-ring image.
 - Video watermark: subtle **“WonderVexa”**, lower-right safe area.
+- Format target: 9:16 vertical magical transformation and visual-story Shorts.
 
-## Goal
-Build an Android-friendly, zero-budget-first pipeline for original vertical 9:16 magical transformation and educational Shorts. Prepare two daily content drafts (morning and evening, Asia/Kathmandu), including scripts, storyboards, SEO metadata and thumbnail artwork. Video rendering and publishing remain gated on verified free providers and human approval.
+## Goal and non-negotiable constraints
+Build an Android-friendly, zero-budget workflow that prepares two daily content drafts at 06:15 and 18:15 Asia/Kathmandu. Budget target is NPR 0: no paid API, subscription, payment card, auto-recharge or paid fallback. Never store secrets in source control. Do not modify the separate Nepal News project.
 
-## Daily content workflow
-- Scheduled GitHub Actions runs at 06:15 and 18:15 Nepal time to create draft packages.
-- Each package includes an original short script, shot list, suggested title, description, long-tail keyword phrases, hashtags, metadata JSON and SVG thumbnail.
-- Current draft generator uses an offline curated idea bank. It is not live trend research and does not use a generative AI model. Trend-aware selection and durable duplicate history are future integrations.
-- Workflow output is saved as a downloadable GitHub Actions artifact; scheduled runs are best-effort and may be delayed or skipped.
-- Never claim a topic is trending unless a reliable trend source has actually verified it.
+No automatic publishing. Every final video and every destination require explicit human approval. A viral result is not guaranteed.
 
-## Publishing and safety
-- Intended destinations: YouTube Shorts, Facebook Reels, TikTok, Instagram Reels.
-- Every final video requires explicit user approval and a destination selection before upload.
-- Automatic publishing is disabled. No upload happens from the daily draft workflow.
-- Keep a clean master export and separate watermarked copies where practical.
-- No paid service, credit card, paid fallback, or hidden billing.
+## Implemented on main
+1. GitHub Actions scheduled draft workflow at 06:15 and 18:15 Nepal time, plus manual workflow-dispatch inputs.
+2. Offline deterministic content factory with 50 curated evergreen story seeds, scripts, shot lists, SEO metadata, hashtags and subject-matched SVG thumbnail drafts.
+3. Four-scene visual prompt packs with continuity locks, negative prompts and assembly notes.
+4. Draft package integrity validation and tests, including publishing-disabled checks.
+5. Topic history avoids repeats until the idea bank is exhausted, then recycles the least-recently-used topic. GitHub Actions cache makes cross-run history best-effort, not permanent.
+6. Provider-neutral RSS/Atom research adapter and research-only story brief generator, integrated into the workflow but disabled until reviewed feed sources are configured.
+7. Local FFmpeg assembly, subtitle workflow and MP4/PNG technical quality checks for already-generated source media.
+8. Fail-closed video-provider evidence manifest validator.
 
-## Staged delivery
-1. Repository foundation, safe configuration and validation.
-2. Daily offline content-draft generation (implemented; needs CI verification).
-3. Live trend research and AI script generation, only after a suitable zero-cost source/model is verified.
-4. Video/image provider feasibility: verify license, runtime, 9:16 support, quota, queue and actual zero cost.
-5. FFmpeg rendering, subtitle composition, thumbnail export, WonderVexa watermark and technical QA.
-6. Human review, then separate official publishing adapters with per-video approval.
+## Not complete / blocked
+- No reviewed RSS/Atom sources are enabled; research automation therefore produces no live-feed signals by default.
+- No suitable hosted video provider has passed the NPR 0, quota, 9:16 duration, license and data-handling evidence gate.
+- No AI video has been generated; the Flower Magic proof remains a storyboard and two-clip prompt plan.
+- Local media assembly is implemented but has not been proven end-to-end with real licensed source clips in this project.
+- No platform publishing adapters or account eligibility checks are complete. Publishing remains disabled.
 
 ## First video proof
-A 8–12 second vertical flower-restoration magic visual. Check character continuity, hands, motion, transformation, framing, watermark, render time, quota and actual cost before further automation.
+The planned proof is a 10-second vertical restoration of one wilted bluebell-like flower by a restrained blue-and-gold magical ring. See:
+- [Storyboard](FIRST_PROOF_STORYBOARD.md)
+- [Two-clip generation plan](FIRST_PROOF_CLIP_PLAN.md)
 
-## Known blockers
-- The daily draft factory is template-based, not AI-generated.
-- It does not currently fetch live trends or persist topic history between scheduled workflow runs.
-- No video-generation provider has been validated; no video rendering or upload is implemented.
-- Platform API eligibility and review requirements are not assumed.
-- A viral result cannot be guaranteed.
+Do not submit a generation request until an exact provider/model is verified against official free-tier, quota, commercial-license, data-handling and output-spec evidence, paid fallback is disabled, and the user approves that specific test. If no provider qualifies, keep the video step blocked rather than incur cost or misrepresent a draft as footage.
 
-## Current status
-Daily draft package code and scheduled workflow have been added to the feature branch. Verify CI before relying on it. No video has been generated or published. All publishing destinations remain disabled.
+## Operational checks
+- CI must pass on the latest main commit.
+- Inspect actual scheduled run artifacts; a successful CI test is not proof that a real video was generated.
+- Scheduled GitHub Actions are best-effort and may be delayed or skipped.
+- Each draft artifact is retained for 14 days.
+- Human review must approve visual quality, rights, platform compliance, exact video and destination before any upload.

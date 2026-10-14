@@ -59,6 +59,25 @@ class ContentFactoryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "JSON array"):
                 factory.build_package(date(2026, 10, 12), "morning", root / "drafts", history)
 
+    def test_thumbnail_artwork_matches_story_subject(self):
+        flower = factory.thumbnail_style("Moonlit Seed", "A seed grows into a flower", "flower magic")
+        ocean = factory.thumbnail_style("Rainbow Shell", "A shell restores the sea", "ocean shell")
+        self.assertEqual(flower[0], "✿")
+        self.assertEqual(ocean[0], "≋")
+        self.assertNotEqual(flower[1:], ocean[1:])
+
+    def test_generated_thumbnail_contains_subject_motif_and_story_label(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            out = factory.build_package(date(2026, 10, 12), "morning", root / "drafts", root / "history.json")
+            svg = (out / "thumbnail.svg").read_text(encoding="utf-8")
+            metadata = json.loads((out / "metadata.json").read_text(encoding="utf-8"))
+            idea = next(item for item in factory.IDEAS if item[0] == metadata["topic"])
+            symbol = factory.thumbnail_style(*idea[:3])[0]
+            self.assertIn(symbol, svg)
+            self.assertIn("A MAGICAL TRANSFORMATION", svg)
+            ET.fromstring(svg)
+
     def test_svg_escapes_xml_special_characters(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -95,6 +95,26 @@ def _atomic_write_text(path: Path, content: str) -> None:
             temporary_path.unlink(missing_ok=True)
 
 
+def thumbnail_style(title: str, premise: str, keyword: str) -> tuple[str, str, str]:
+    """Return a deterministic subject glyph and palette for a story thumbnail."""
+    text = f"{title} {premise} {keyword}".lower()
+    themes = (
+        (("flower", "rose", "seed", "orchard", "willow", "leaf", "acorn", "garden", "sprout"), "✿", "#ffbd68", "#173b48"),
+        (("butterfly", "moth", "feather", "crane", "phoenix", "bird", "wing"), "❋", "#a9e8ff", "#182c62"),
+        (("ocean", "sea", "shell", "coral", "starfish", "tide", "pearl", "turtle"), "≋", "#5ce6d0", "#103d5c"),
+        (("crystal", "ice", "frost", "snow", "frozen", "snowflake"), "❄", "#a8eaff", "#263c78"),
+        (("star", "galaxy", "comet", "moon", "aurora", "planet", "constellation"), "✦", "#e3b4ff", "#251b59"),
+        (("lantern", "firefly", "candle", "ember", "lighthouse", "light"), "☼", "#ffd66b", "#49301c"),
+        (("bell", "music", "singing", "note", "teacup"), "♫", "#ffc0df", "#48254c"),
+        (("key", "doorway", "bridge", "castle", "portal", "compass", "hourglass", "watch"), "◇", "#b9a8ff", "#292653"),
+        (("dragon", "whale", "cloud"), "♧", "#9de5ff", "#17405d"),
+    )
+    for words, symbol, accent, background in themes:
+        if any(word in text for word in words):
+            return symbol, accent, background
+    return "✧", "#8feeff", "#183d78"
+
+
 def choose_idea(day: date, slot: str, history: list[str]) -> tuple[str, str, str, str]:
     """Prefer unused ideas, then recycle the least-recently-used curated idea."""
     offset = int(hashlib.sha256(f"{day.isoformat()}:{slot}".encode()).hexdigest()[:8], 16)
@@ -207,14 +227,19 @@ Low resolution, landscape framing, cropped subject, inconsistent subject identit
     }
     (out / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     safe_title = html.escape(title, quote=False)
+    symbol, accent, background = thumbnail_style(title, premise, keyword)
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
-<defs><radialGradient id="bg"><stop offset="0" stop-color="#183d78"/><stop offset="1" stop-color="#050916"/></radialGradient>
-<linearGradient id="ring"><stop stop-color="#6ffcff"/><stop offset=".5" stop-color="#7c8dff"/><stop offset="1" stop-color="#f1aaff"/></linearGradient></defs>
+<defs>
+<radialGradient id="bg"><stop offset="0" stop-color="{background}"/><stop offset="1" stop-color="#050916"/></radialGradient>
+<linearGradient id="halo"><stop stop-color="{accent}"/><stop offset=".55" stop-color="#7c8dff"/><stop offset="1" stop-color="#f1aaff"/></linearGradient>
+</defs>
 <rect width="1080" height="1920" fill="url(#bg)"/>
-<circle cx="540" cy="760" r="300" fill="none" stroke="url(#ring)" stroke-width="18" opacity=".9"/>
-<circle cx="540" cy="760" r="250" fill="none" stroke="#8feeff" stroke-width="4" opacity=".55"/>
-<text x="540" y="1320" text-anchor="middle" fill="#ffffff" font-size="76" font-family="Arial,sans-serif" font-weight="bold">{safe_title}</text>
-<text x="540" y="1440" text-anchor="middle" fill="#aeeeff" font-size="44" font-family="Arial,sans-serif">A WonderVexa Magical Short</text>
+<circle cx="540" cy="720" r="340" fill="none" stroke="url(#halo)" stroke-width="16" opacity=".82"/>
+<circle cx="540" cy="720" r="275" fill="none" stroke="{accent}" stroke-width="3" opacity=".55"/>
+<circle cx="540" cy="720" r="205" fill="{accent}" opacity=".10"/>
+<text x="540" y="845" text-anchor="middle" fill="{accent}" font-size="390" font-family="Arial,sans-serif">{symbol}</text>
+<text x="540" y="1270" text-anchor="middle" fill="#ffffff" font-size="76" font-family="Arial,sans-serif" font-weight="bold">{safe_title}</text>
+<text x="540" y="1400" text-anchor="middle" fill="{accent}" font-size="42" font-family="Arial,sans-serif">A MAGICAL TRANSFORMATION</text>
 <text x="540" y="1790" text-anchor="middle" fill="#d9eaff" font-size="38" font-family="Arial,sans-serif">WONDERVEXA</text>
 </svg>'''
     (out / "thumbnail.svg").write_text(svg, encoding="utf-8")

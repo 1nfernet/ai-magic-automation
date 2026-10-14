@@ -151,3 +151,24 @@ Additional non-official snapshot (not accepted as contractual evidence):
 ## Free.ai CogVideoX candidate (2026-10-11)
 
 See [Free.ai CogVideoX candidate assessment](VIDEO_PROVIDER_FREEAI_ASSESSMENT.md). Free.ai is the strongest new lead found, but API free-balance availability and model routing are not yet clear. Do not integrate or call it until those are resolved.
+
+
+## Agnes AI re-check (2026-10-14)
+
+### Result: rejected as a zero-budget production provider
+
+Rechecked the official AgnesAI-Labs model catalog:
+- https://github.com/AgnesAI-Labs/AgnesAI-Models/blob/main/MODEL_CATALOG.md
+
+The catalog identifies `agnes-video-v2.0` and documents its asynchronous video API, but its published video subscription quotas appear only under paid plans:
+- Starter: $4, 500 video seconds/day
+- Plus: $10, 500 video seconds/day
+- Pro: $50, 500 video seconds/day
+
+The Free/default tier table gives video request throughput (2 public RPM / 1 executable RPM), but does not publish a free video-seconds entitlement. RPM is only a rate limit; it is not evidence that video generation is free. The catalog also warns that quotas and availability can change.
+
+No official evidence was established for free video generation without payment, commercial output rights, or prompt/reference/output data-handling terms. Therefore Agnes does not pass the zero-budget provider gate.
+
+**Decision:** Do not create an Agnes account, request an API key, call its video endpoint, or integrate it into scheduled automation. No Agnes quota was consumed and no credentials or payment details were entered.
+
+The overall provider status remains **BLOCKED**. Continue using the proven offline draft-package workflow only; generation and automatic publishing remain disabled until a provider passes the full evidence gate and the user approves a manual proof.

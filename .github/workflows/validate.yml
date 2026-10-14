@@ -19,6 +19,10 @@ jobs:
           python-version: "3.11"
       - name: Install configuration parser
         run: python -m pip install --disable-pip-version-check PyYAML
+      - name: Install FFmpeg for local media integration tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y ffmpeg
       - name: Run safety tests
         run: python -m unittest discover -s tests -v
       - name: Check example configuration (expected not-ready until provider is verified)

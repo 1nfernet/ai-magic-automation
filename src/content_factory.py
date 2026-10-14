@@ -155,6 +155,40 @@ def build_package(day: date, slot: str, out_dir: Path, history_file: Path) -> Pa
 - Add subtle WonderVexa watermark in the lower-right safe area.
 - Export 1080x1920 MP4 when a verified zero-cost renderer is available.
 """
+    visual_prompts = f"""# Visual generation prompts — {title}
+
+**Project:** WonderVexa  
+**Story concept:** {premise}  
+**Target canvas:** 9:16 portrait, 1080x1920  
+**Target duration:** 10 seconds  
+**Status:** Prompt pack only — no media has been generated.
+
+## Continuity lock
+Use the exact same central subject, silhouette, colors, proportions, and environment in every scene. Keep the camera vertical and the subject centered. Preserve realistic, readable movement and a consistent cinematic fantasy 3D look. Generate clean footage without text, logos, captions, or watermark; add branding only during editing.
+
+## Scene 1 — Establish the problem (0–2 seconds)
+Create a vertical 9:16 cinematic macro establishing shot for this story: {premise}. Show the subject clearly in its initial state, with the problem immediately understandable. Use a simple uncluttered background, gentle camera movement, soft depth of field, and restrained moonlit blue lighting. Keep the subject centered and fully inside frame.
+
+## Scene 2 — Magic arrives (2–5 seconds)
+Continue with the identical subject and environment from Scene 1. A delicate blue-and-gold magical energy ring approaches and circles the subject once. A few controlled glowing particles move toward the subject. Keep the transformation readable and avoid covering the subject with effects. Use a subtle slow push-in; do not change species, shape, scale, or camera orientation.
+
+## Scene 3 — Transformation reveal (5–8 seconds)
+Continue seamlessly with the same subject, framing, and lighting. Show one continuous, physically coherent transformation that visually communicates this story: {premise}. The change should progress gradually from the original state to the improved magical state. No jump cuts, sudden replacement, duplicated subjects, or abrupt camera movement.
+
+## Scene 4 — Final hero shot (8–10 seconds)
+Hold on the completed magical result of this story: {hook} Keep the same subject identity and environment. Show the full result clearly with elegant blue-and-gold highlights, a few fading particles, and clean negative space in the lower-right safe area for a separately added WonderVexa watermark. Stable composition; no baked-in text or logo.
+
+## Negative prompt
+Low resolution, landscape framing, cropped subject, inconsistent subject identity, extra subjects, duplicate limbs or parts, deformed anatomy, flicker, jitter, rapid camera spins, jump cuts, abrupt morphing, chaotic particles, excessive bloom, strobing, unreadable text, subtitles, logos, signatures, watermarks, borders, copyrighted characters, imitation of a living artist.
+
+## Assembly notes
+- Treat the four scenes as a visual plan, not proof that a provider can preserve continuity.
+- If separate clips are generated, compare the subject silhouette and colors at every cut.
+- Use only footage and audio with verified usage rights.
+- Keep the final master vertical at 1080x1920 and 8–12 seconds.
+- Human review is required before any final video or publication.
+"""
+    (out / "visual_prompts.md").write_text(visual_prompts, encoding="utf-8")
     (out / "script.md").write_text(script, encoding="utf-8")
     metadata = {
         "id": video_id, "channel": "WonderVexa", "date": day.isoformat(),

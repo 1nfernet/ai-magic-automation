@@ -30,6 +30,23 @@ class DraftPackageCheckTests(unittest.TestCase):
             package = self.make_package(Path(tmp))
             self.assertEqual(checker.validate_package(package), [])
 
+    def test_visual_prompt_pack_has_all_production_sections(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            package = self.make_package(Path(tmp))
+            prompts = (package / "visual_prompts.md").read_text(encoding="utf-8")
+            for section in ("## Continuity lock", "## Scene 1", "## Scene 2",
+                            "## Scene 3", "## Scene 4", "## Negative prompt",
+                            "## Assembly notes"):
+                self.assertIn(section, prompts)
+            self.assertEqual(checker.validate_package(package), [])
+
+    def test_missing_visual_prompt_pack_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            package = self.make_package(Path(tmp))
+            (package / "visual_prompts.md").unlink()
+            self.assertTrue(any("visual_prompts.md" in error
+                                for error in checker.validate_package(package)))
+
     def test_publishing_enabled_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             package = self.make_package(Path(tmp))

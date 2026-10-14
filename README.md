@@ -3,7 +3,7 @@
 A zero-budget-first project for creating original 9:16 magical transformation and visual-story Shorts.
 
 ## Current status
-A twice-daily **draft package** workflow has been added. It creates scripts, four scene-by-scene visual prompts with continuity and negative-prompt guidance, title/description, long-tail keywords, hashtags and an SVG thumbnail draft. It does not yet generate an AI video or publish. A separate RSS/Atom trend-research adapter collects attributed, timestamped public-feed signals; these are not claimed to be verified social-platform trends and are not yet connected to the scheduled workflow.
+A twice-daily **draft package** workflow has been added. It creates scripts, four scene-by-scene visual prompts with continuity and negative-prompt guidance, title/description, long-tail keywords, hashtags and a subject-themed SVG thumbnail draft with a story-matched symbol and color palette. It does not yet generate an AI video or publish. A separate RSS/Atom trend-research adapter collects attributed, timestamped public-feed signals; these are not claimed to be verified social-platform trends and are not yet connected to the scheduled workflow.
 
 ## Safety rules
 - Free services only; never silently enable paid billing.

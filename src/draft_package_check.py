@@ -15,7 +15,7 @@ from typing import Any
 
 def validate_package(package: Path) -> list[str]:
     errors: list[str] = []
-    required = ("script.md", "metadata.json", "thumbnail.svg")
+    required = ("script.md", "metadata.json", "thumbnail.svg", "visual_prompts.md")
     for name in required:
         path = package / name
         if not path.is_file() or path.stat().st_size == 0:
@@ -37,6 +37,16 @@ def validate_package(package: Path) -> list[str]:
         script = (package / "script.md").read_text(encoding="utf-8")
     except UnicodeDecodeError:
         return ["script.md must contain valid UTF-8 text."]
+
+    try:
+        visual_prompts = (package / "visual_prompts.md").read_text(encoding="utf-8")
+        for heading in ("## Continuity lock", "## Scene 1", "## Scene 2",
+                        "## Scene 3", "## Scene 4", "## Negative prompt",
+                        "## Assembly notes"):
+            if heading not in visual_prompts:
+                errors.append(f"visual_prompts.md is missing required section: {heading}")
+    except UnicodeDecodeError:
+        errors.append("visual_prompts.md must contain valid UTF-8 text.")
 
     svg_path = package / "thumbnail.svg"
     try:

@@ -80,6 +80,17 @@ class ContentFactoryTests(unittest.TestCase):
         self.assertEqual(len(titles), len(set(titles)))
         self.assertTrue(all(len(idea) == 4 for idea in factory.IDEAS))
 
+    def test_exhausted_catalogue_recycles_least_recently_used_topic(self):
+        titles = [idea[0] for idea in factory.IDEAS]
+        selected = factory.choose_idea(date(2026, 10, 14), "morning", titles)
+        self.assertEqual(selected[0], titles[0])
+
+    def test_recycling_respects_most_recent_use(self):
+        titles = [idea[0] for idea in factory.IDEAS]
+        history = titles + [titles[0]]
+        selected = factory.choose_idea(date(2026, 10, 14), "evening", history)
+        self.assertEqual(selected[0], titles[1])
+
     def test_invalid_slot_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError):

@@ -96,12 +96,18 @@ def _atomic_write_text(path: Path, content: str) -> None:
 
 
 def choose_idea(day: date, slot: str, history: list[str]) -> tuple[str, str, str, str]:
+    """Prefer unused ideas, then recycle the least-recently-used curated idea."""
     offset = int(hashlib.sha256(f"{day.isoformat()}:{slot}".encode()).hexdigest()[:8], 16)
+    used = set(history)
     for step in range(len(IDEAS)):
         idea = IDEAS[(offset + step) % len(IDEAS)]
-        if idea[0] not in history:
+        if idea[0] not in used:
             return idea
-    raise RuntimeError("All built-in ideas have been used. Add fresh reviewed ideas to IDEAS.")
+
+    # The finite catalogue is exhausted. Reuse the topic whose latest use is
+    # oldest; stable IDEAS order breaks ties for deterministic output.
+    last_used = {title: index for index, title in enumerate(history)}
+    return min(IDEAS, key=lambda idea: last_used.get(idea[0], -1))
 
 
 def build_package(day: date, slot: str, out_dir: Path, history_file: Path) -> Path:
